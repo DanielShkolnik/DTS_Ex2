@@ -11,8 +11,8 @@ private:
 
 public:
     int getID();
-    DataCenter(int ID);
-    ~DataCenter();
+    explicit DataCenter(int ID):DC_ID(ID),next(nullptr),group(nullptr){};
+    ~DataCenter() = default;
     DataCenter& operator=(const DataCenter& dc) = delete;
     DataCenter(const DataCenter& dc) = delete;
 };
