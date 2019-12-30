@@ -12,6 +12,7 @@ private:
     Server* server;
     ChainNode* next;
 public:
+    ChainNode();
     ChainNode(int server_id, int DC_id);
     void setNext(ChainNode* next);
     ChainNode(const ChainNode&) = delete;
