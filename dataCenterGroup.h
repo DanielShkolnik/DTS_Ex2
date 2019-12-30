@@ -17,6 +17,8 @@ private:
 public:
     int getNumOfDCs();
     int getNumOfServers();
+    void setNumOfDCs(int NumOfDCs);
+    void setNumOfServers(int NumOfServers);
     DataCenter* getRoot();
     explicit DataCenter(DataCenter* root):root(root), traffic_rank_tree(nullptr), num_of_DCs(0),num_of_Servers(0){};
     ~DataCenter() = default;

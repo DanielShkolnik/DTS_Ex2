@@ -12,3 +12,11 @@ int DataCenterGroup::getNumOfServers(){
 DataCenter* DataCenterGroup::getRoot(){
     return this->root;
 }
+
+void DataCenterGroup::setNumOfDCs(int NumOfDCs){
+    this->num_of_DCs=NumOfDCs;
+}
+
+void DataCenterGroup::setNumOfServers(int NumOfServers){
+    this->num_of_Servers=NumOfServers;
+}
