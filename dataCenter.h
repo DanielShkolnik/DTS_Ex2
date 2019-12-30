@@ -7,7 +7,7 @@ class DataCenter{
 private:
     int DC_ID;
     DataCenter* next;
-    std::shared_ptr<DataCenterGroup>* group;
+    std::shared_ptr<DataCenterGroup> group;
 
 public:
     int getID();
