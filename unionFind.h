@@ -4,6 +4,9 @@
 
 #include "dataCenterGroup.h"
 #include "dataCenter.h"
+#include "assert.h"
+#include "avl.h"
+#include <memory>
 
 class UnionFind{
 private:
@@ -26,4 +29,23 @@ public:
 };
 
 
+class AddToArray{
+private:
+    int i;
+    std::shared_ptr<Server>* server_array;
+public:
+    void operator()(const std::shared_ptr<Node<Key,Server>>& node){
+        (this->server_array)[i] = node->getData();
+        i++;
+    }
+    explicit AddToArray(std::shared_ptr<Server>* server_array):i(0),server_array(server_array){};
+    AddToArray(const AddToArray& a) = delete;
+};
+
+
+
+
 #endif //DTS_EX2_UNIONFIND_H
+
+
+

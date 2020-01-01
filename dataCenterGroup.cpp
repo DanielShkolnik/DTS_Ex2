@@ -20,3 +20,7 @@ void DataCenterGroup::setNumOfDCs(int NumOfDCs){
 void DataCenterGroup::setNumOfServers(int NumOfServers){
     this->num_of_Servers=NumOfServers;
 }
+
+Avl<Key,Server>* DataCenterGroup::getTrafficRankTree(){
+    return this->traffic_rank_tree;
+}
