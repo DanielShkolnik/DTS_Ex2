@@ -15,6 +15,8 @@ public:
     ChainNode();
     ChainNode(int server_id, int DC_id);
     void setNext(ChainNode* next);
+    ChainNode* getNext();
+    Server* getData();
     ChainNode(const ChainNode&) = delete;
     ChainNode& operator=(const ChainNode&) = delete;
     ~ChainNode();

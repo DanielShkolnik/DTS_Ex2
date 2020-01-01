@@ -12,6 +12,12 @@ void ChainNode::setNext(ChainNode* next){
     this->next = next;
 }
 
+ChainNode* ChainNode::getNext(){
+    return this->next;
+}
+Server* ChainNode::getData(){
+    return this->server;
+}
 ChainNode::ChainNode(){
     this->server = nullptr;
     this->next = nullptr;

@@ -13,5 +13,6 @@ public:
     Server(int server_id, int DC_id):server_id(server_id), traffic(0), DC_id(DC_id){};
     void setTraffic(int traffic);
     int getTraffic();
+    int getID();
 };
 #endif //DTS_EX2_SERVER_H

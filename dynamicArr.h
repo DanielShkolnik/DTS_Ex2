@@ -19,9 +19,9 @@ private:
 public:
     class ServerExsist{};
     class ServerNotExsist{};
-    explicit DynamicArr(int size_p): arr(new ChainNode*[size_p]),num_of_occupide_cells(0), size(size_p){};
+    explicit DynamicArr(int size_p);
     void addServer(int index, int server_id, int DC_id);
-    void removeServer(int index,int server_id);
+    void removeServer(int index,int server_id); // TO DO
     ~DynamicArr();
     DynamicArr(const DynamicArr&) = delete;
     DynamicArr& operator=(const DynamicArr&) = delete;
