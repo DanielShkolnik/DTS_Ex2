@@ -18,7 +18,7 @@ public:
     std::shared_ptr<DataCenterGroup> findDCGroup(int DC_ID);
     void unionDCs(int DC_ID1, int DC_ID2);
     explicit UnionFind(int n):groups_arr(new std::shared_ptr<DataCenterGroup>[n]), DCs_arr(new DataCenter*[n]), n(n){};
-    ~UnionFind() = default;
+    ~UnionFind();
     UnionFind& operator=(const DataCenter& dc) = delete;
     UnionFind(const DataCenter& dc) = delete;
 

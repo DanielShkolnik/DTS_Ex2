@@ -7,6 +7,7 @@
 
 #include "chainNode.h"
 
+
 class HashTable{
 private:
     ChainNode** arr;
@@ -22,11 +23,12 @@ private:
 public:
     class ServerExsist{};
     class ServerNotExsist{};
-    explicit HashTable(int size_p);
+    explicit HashTable();
     ~HashTable();
     HashTable(const HashTable&) = delete;
     HashTable& operator=(const HashTable&) = delete;
     void add(int server_id, int DC_id);
     void remove(int server_id);
+
 };
 #endif //DTS_EX2_HashTable_H

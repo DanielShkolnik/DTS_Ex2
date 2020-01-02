@@ -6,20 +6,21 @@
 #define DTS_EX2_CHAINNODE_H
 
 #include "server.h"
+#include <memory>
 
 class ChainNode{
 private:
-    Server* server;
+    std::shared_ptr<Server> server;
     ChainNode* next;
 public:
     ChainNode();
     ChainNode(int server_id, int DC_id);
     void setNext(ChainNode* next);
     ChainNode* getNext();
-    Server* getData();
+    std::shared_ptr<Server> getData();
     ChainNode(const ChainNode&) = delete;
     ChainNode& operator=(const ChainNode&) = delete;
-    ~ChainNode();
+    ~ChainNode() = default;
 
 };
 #endif //DTS_EX2_CHAINNODE_H

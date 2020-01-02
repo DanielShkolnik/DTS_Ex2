@@ -15,14 +15,10 @@ void ChainNode::setNext(ChainNode* next){
 ChainNode* ChainNode::getNext(){
     return this->next;
 }
-Server* ChainNode::getData(){
+std::shared_ptr<Server> ChainNode::getData(){
     return this->server;
 }
 ChainNode::ChainNode(){
     this->server = nullptr;
     this->next = nullptr;
-}
-
-ChainNode::~ChainNode() {
-    delete this->server;
 }

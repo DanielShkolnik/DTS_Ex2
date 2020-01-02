@@ -111,6 +111,12 @@ void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
     else unionGroups(group2,group1);
 }
 
+UnionFind::~UnionFind(){
+    for(int i=0; i<this->n; i++){
+        delete this->DCs_arr[i];
+    }
+    delete[] DCs_arr;
+}
 
 
 

@@ -4,6 +4,7 @@
 
 #include "hashTable.h"
 #include "assert.h"
+#define MAGICSIZE 17
 
 void initArr(ChainNode** array, int size){
     for(int i=0; i<size; i++){
@@ -20,11 +21,11 @@ void HashTable::doubleSize(){
         ChainNode* current = this->arr[i];
         while (current){
             int index = this->hash(current->getData()->getID());
-            newArr[index] = this->arr[i];
+            newArr[index] = current;
             current = current->getNext();
         }
     }
-    deleteArr();
+    this->deleteArr();
     this->arr = newArr;
 }
 
@@ -55,11 +56,11 @@ void HashTable::halfSize(){
         ChainNode* current = this->arr[i];
         while (current){
             int index = this->hash(current->getData()->getID());
-            newArr[index] = this->arr[i];
+            newArr[index] = current;
             current = current->getNext();
         }
     }
-    deleteArr();
+    this->deleteArr();
     this->arr = newArr;
 }
 
@@ -83,7 +84,7 @@ void HashTable::addServer(int index, int server_id, int DC_id){
     this->num_of_occupied_cells++;
 }
 
-HashTable::HashTable(int size_p): arr(new ChainNode*[size_p]),num_of_occupied_cells(0), size(size_p){
+HashTable::HashTable(): arr(new ChainNode*[MAGICSIZE]),num_of_occupied_cells(0), size(MAGICSIZE){
     initArr(this->arr,this->size);
 }
 
@@ -130,7 +131,7 @@ void HashTable::add(int server_id, int DC_id){
 }
 
 void HashTable::remove(int server_id){
-    if(this->num_of_occupied_cells == this->size/4 && this->size > 17){
+    if(this->num_of_occupied_cells == this->size/4 && this->size > MAGICSIZE){
         this->halfSize();
     }
     int index = this->hash(server_id);
