@@ -29,6 +29,7 @@ public:
     HashTable& operator=(const HashTable&) = delete;
     void add(int server_id, int DC_id);
     void remove(int server_id);
-
+    int getDCID(int server_id);
+    int getTraffic(int server_id);
 };
 #endif //DTS_EX2_HashTable_H

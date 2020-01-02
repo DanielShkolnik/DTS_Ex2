@@ -137,3 +137,24 @@ void HashTable::remove(int server_id){
     int index = this->hash(server_id);
     this->removeServer(index,server_id);
 }
+
+int HashTable::getDCID(int server_id){
+    int index = this->hash(server_id);
+    ChainNode* current = this->arr[index];
+    while (current){
+        if(current->getData()->getID() == server_id){
+            return current->getData()->getDCID();
+        }
+    }
+    throw HashTable::ServerNotExsist();
+}
+int HashTable::getTraffic(int server_id){
+    int index = this->hash(server_id);
+    ChainNode* current = this->arr[index];
+    while (current){
+        if(current->getData()->getID() == server_id){
+            return current->getData()->getTraffic();
+        }
+    }
+    throw HashTable::ServerNotExsist();
+}
