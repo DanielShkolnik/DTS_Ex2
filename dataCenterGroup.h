@@ -27,6 +27,7 @@ public:
     ~DataCenter() = default;
     DataCenter& operator=(const DataCenter& dc) = delete;
     DataCenter(const DataCenter& dc) = delete;
+    void removeServer(int server_ID, int traffic);
 };
 
 

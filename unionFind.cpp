@@ -118,5 +118,9 @@ UnionFind::~UnionFind(){
     delete[] DCs_arr;
 }
 
+void UnionFind::removeServer(int DC_ID, int server_ID, int traffic){
+    std::shared_ptr<DataCenterGroup> DC_group = findDCGroup(DC_ID);
+    DC_group->removeServer(server_ID, traffic);
+}
 
 
