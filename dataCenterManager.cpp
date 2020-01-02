@@ -34,17 +34,15 @@ StatusType DataCenterManager::AddServer(int dataCenterID, int serverID){
 StatusType DataCenterManager::RemoveServer(int serverID){
     if(serverID<=0) return INVALID_INPUT;
     try{
-        this->servers_hash_table.remove(serverID);
-
-        Key key(serverID,);
-        this->servers_traffic.delete_element()
+        int server_traffic = this->servers_hash_table.getTraffic(serverID);
+        int server_DC_ID = this->servers_hash_table.getDCID(serverID);
+        Key key(serverID,server_traffic);
+        this->servers_traffic.delete_element(key);
+        this->DCGroups.removeServer(server_DC_ID, serverID, server_traffic);
         return SUCCESS;
     }
     catch(std::bad_alloc& e){
         return ALLOCATION_ERROR;
-    }
-    catch(HashTable::ServerExsist& e){
-        return FAILURE;
     }
     catch(HashTable::ServerNotExsist& e){
         return FAILURE;
@@ -52,7 +50,21 @@ StatusType DataCenterManager::RemoveServer(int serverID){
 }
 
 StatusType DataCenterManager::SetTraffic(int serverID, int traffic){
-
+    if(serverID<=0 || traffic<0) return INVALID_INPUT;
+    try{
+        int server_traffic = this->servers_hash_table.getTraffic(serverID);
+        int server_DC_ID = this->servers_hash_table.getDCID(serverID);
+        Key key(serverID,server_traffic);
+        this->servers_traffic.delete_element(key);
+        this->DCGroups.removeServer(server_DC_ID, serverID, server_traffic);
+        return SUCCESS;
+    }
+    catch(std::bad_alloc& e){
+        return ALLOCATION_ERROR;
+    }
+    catch(HashTable::ServerNotExsist& e){
+        return FAILURE;
+    }
 }
 
 StatusType DataCenterManager::SumHighestTrafficServers(int dataCenterID, int k, int* traffic){
