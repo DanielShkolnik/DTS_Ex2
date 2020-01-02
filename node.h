@@ -6,6 +6,8 @@ template <class K, class D>
 class Node{
 private :
     K key;
+    int traffic;
+    int nodeCount;
     std::shared_ptr<D> data;
     std::shared_ptr<Node> left;
     std::shared_ptr<Node> right;
@@ -38,6 +40,10 @@ public:
     void setNext(const std::shared_ptr<Node>& next);
     Node(K key, std::shared_ptr<D> data,std::shared_ptr<Node> prev,std::shared_ptr<Node> next);
     Node(K key, std::shared_ptr<D> data);
+    int getNodeCount();
+    void setNodeCount(int nodeCount);
+    int getTraffic();
+    void setTraffic(int traffic);
 };
 
 static int max(int a, int b){
@@ -145,5 +151,26 @@ template <class K, class D>
 Node<K,D>::Node(K key, std::shared_ptr<D> data_ptr,std::shared_ptr<Node> prev,std::shared_ptr<Node> next):key(key),data(data_ptr),left(prev),right(next),height(1){}
 template <class K, class D>
 Node<K,D>::Node(K key, std::shared_ptr<D> data_ptr):key(key),data(data_ptr),left(nullptr),right(nullptr),height(1){}
+
+
+template <class K, class D>
+int Node<K,D>::getNodeCount(){
+    return this->nodeCount;
+}
+
+template <class K, class D>
+void Node<K,D>::setNodeCount(int nodeCount){
+    this->nodeCount=nodeCount;
+}
+
+template <class K, class D>
+int Node<K,D>::getTraffic(){
+    return this->traffic;
+}
+
+template <class K, class D>
+void Node<K,D>::setTraffic(int traffic){
+    this->traffic=traffic;
+}
 
 #endif

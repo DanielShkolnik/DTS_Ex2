@@ -24,3 +24,9 @@ void DataCenterGroup::setNumOfServers(int NumOfServers){
 Avl<Key,Server>* DataCenterGroup::getTrafficRankTree(){
     return this->traffic_rank_tree;
 }
+
+void DataCenterGroup::setTrafficRankTree(Avl<Key,Server>* tree){
+    assert(tree!= nullptr);
+    delete this->traffic_rank_tree;
+    this->traffic_rank_tree=tree;
+}
