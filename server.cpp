@@ -15,3 +15,7 @@ void Server::setTraffic(int traffic){
 int Server::getID(){
     return this->server_id;
 }
+
+int Server::getDCID(){
+    return this->DC_id;
+}

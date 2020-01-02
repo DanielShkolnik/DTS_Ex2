@@ -14,5 +14,6 @@ public:
     void setTraffic(int traffic);
     int getTraffic();
     int getID();
+    int getDCID();
 };
 #endif //DTS_EX2_SERVER_H
