@@ -123,4 +123,9 @@ void UnionFind::removeServer(int DC_ID, int server_ID, int traffic){
     DC_group->removeServer(server_ID, traffic);
 }
 
+void UnionFind::addServer(int DC_ID, int server_ID, int traffic, const std::shared_ptr<Server>& server){
+    std::shared_ptr<DataCenterGroup> DC_group = findDCGroup(DC_ID);
+    DC_group->addServer(server_ID,traffic,server);
+}
+
 

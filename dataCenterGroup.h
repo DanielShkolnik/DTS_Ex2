@@ -7,6 +7,7 @@
 #include "key.h"
 #include "avl.h"
 #include "assert.h"
+#include "memory"
 
 class DataCenterGroup{
 private:
@@ -28,6 +29,7 @@ public:
     DataCenter& operator=(const DataCenter& dc) = delete;
     DataCenter(const DataCenter& dc) = delete;
     void removeServer(int server_ID, int traffic);
+    void addServer(int serverID, int traffic, const std::shared_ptr<Server>& server);
 };
 
 

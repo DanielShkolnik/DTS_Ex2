@@ -47,6 +47,7 @@ public:
     int getTraffic();
     void setTraffic(int traffic);
     void calcRank();
+    int getSelfTraffic();
 };
 
 static int max(int a, int b){
@@ -205,6 +206,11 @@ void Node<K,D>::calcRank(){
         this->traffic = this->self_traffic;
         this->nodeCount = 1;
     }
+}
+
+template <class K, class D>
+int Node<K,D>::getSelfTraffic(){
+    return this->self_traffic;
 }
 
 #endif

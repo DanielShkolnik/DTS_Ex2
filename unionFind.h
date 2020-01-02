@@ -22,6 +22,7 @@ public:
     UnionFind& operator=(const DataCenter& dc) = delete;
     UnionFind(const DataCenter& dc) = delete;
     void removeServer(int DC_ID, int server_ID, int traffic);
+    void addServer(int DC_ID, int server_ID, int traffic, const std::shared_ptr<Server>& server);
 };
 
 
