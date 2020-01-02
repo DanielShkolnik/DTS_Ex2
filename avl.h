@@ -13,6 +13,7 @@ private:
     void fix_relations(std::shared_ptr<Node<K,D>> A, std::shared_ptr<Node<K,D>> B);
 public:
     Avl():head(nullptr){}
+    explicit Avl(int size);
     ~Avl();
     Avl(const Avl& avl)= delete;
     Avl& operator=(const Avl& avl)= delete;
@@ -321,6 +322,18 @@ Avl<K,D>::~Avl(){
 template <class K, class D>
 void Avl<K,D>::treeClear() {
     postorder<K,D,void (const std::shared_ptr<Node<K,D>>& node)>(this->head,destroy);
+}
+
+template <class K, class D>
+Avl<K,D>::Avl(int size){
+    std::shared_ptr<Node<K,D>>* node_arr[size+1];
+    for(int i=1; i<=size; i++){
+        node_arr[i] = std::shared_ptr<Node<K,D>>(new Node<K,D>(nullptr,nullptr,nullptr));
+    }
+    for(int i=1; i<=size; i++){
+        if(2*i<size) fix_relations(node_arr[i],node_arr[2*i]);
+        if(2*i+1<size) fix_relations(node_arr[i],node_arr[2*i+1]);
+    }
 }
 
 #endif

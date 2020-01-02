@@ -4,13 +4,14 @@
 
 #include "dataCenter.h"
 #include "server.h"
-
+#include "key.h"
 #include "avl.h"
+#include "assert.h"
 
 class DataCenterGroup{
 private:
     DataCenter* root;
-    Avl<int,Server>* traffic_rank_tree;
+    Avl<Key,Server>* traffic_rank_tree;
     int num_of_DCs;
     int num_of_Servers;
 
@@ -19,6 +20,8 @@ public:
     int getNumOfServers();
     void setNumOfDCs(int NumOfDCs);
     void setNumOfServers(int NumOfServers);
+    Avl<Key,Server>* getTrafficRankTree();
+    void setTrafficRankTree(Avl<Key,Server>* tree);
     DataCenter* getRoot();
     explicit DataCenter(DataCenter* root):root(root), traffic_rank_tree(nullptr), num_of_DCs(0),num_of_Servers(0){};
     ~DataCenter() = default;
