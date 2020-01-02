@@ -80,6 +80,8 @@ void Avl<K,D>::rotateLL(std::shared_ptr<Node<K,D>> B){
     if (A_right!= nullptr) fix_relations(B,A_right);
     B->calcHeight();
     A->calcHeight();
+    B->calcRank();
+    A->calcRank();
 }
 
 template <class K, class D>
@@ -102,6 +104,9 @@ void Avl<K,D>::rotateLR(std::shared_ptr<Node<K,D>> C){
     B->calcHeight();
     C->calcHeight();
     A->calcHeight();
+    B->calcRank();
+    C->calcRank();
+    A->calcRank();
 }
 template <class K, class D>
 std::shared_ptr<D> Avl<K,D>::find(const K& key){
@@ -191,6 +196,8 @@ void Avl<K,D>::rotateRR(std::shared_ptr<Node<K,D>> B){
     if (A_left!= nullptr) fix_relations(B,A_left);
     B->calcHeight();
     A->calcHeight();
+    B->calcRank();
+    A->calcRank();
 }
 
 template <class K, class D>
@@ -213,6 +220,9 @@ void Avl<K,D>::rotateRL(std::shared_ptr<Node<K,D>> C){
     C->calcHeight();
     B->calcHeight();
     A->calcHeight();
+    C->calcRank();
+    B->calcRank();
+    A->calcRank();
 }
 
 template <class K, class D>
@@ -230,12 +240,14 @@ void Avl<K,D>::fix_BFs(std::shared_ptr<Node<K,D>> node){
     std::shared_ptr<Node<K,D>> current = node;
     if(node->isLeaf()){
         current->calcHeight();
+        current->calcRank();
         current = current->getPapa();
     }
     if(current == nullptr) return;
     while (current){
         int prev_height = current->getHeight();
         current->calcHeight();
+        current->calcRank();
         std::shared_ptr<Node<K,D>> prev = current;
         current = current->getPapa();
         int BF = this->getBF(prev);

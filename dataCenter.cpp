@@ -17,3 +17,7 @@ std::shared_ptr<DataCenterGroup> DataCenter::getGroup(){
     return this->group;
 }
 
+void DataCenter::setGroup(const std::shared_ptr<DataCenterGroup>& group){
+    this->group=group;
+}
+

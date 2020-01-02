@@ -44,8 +44,7 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
 
 
 void setRanks(const std::shared_ptr<Node<Key,Server>>& node){
-    node->setTraffic(node->getData()->getTraffic()+node->getTraffic());
-    node->setNodeCount(node->getNodeCount()+1);
+    node->calcRank();
 }
 
 
@@ -58,6 +57,7 @@ void mergeTrees(std::shared_ptr<DataCenterGroup> group1, std::shared_ptr<DataCen
         std::shared_ptr<Server>* server_array2 = new std::shared_ptr<Server>[group2->getNumOfServers()];
         AddToArray pred2(server_array2);
         inorder<Key,Server,AddToArray>(group2->getTrafficRankTree()->getHead(),pred2);
+
         int arr_size=group1->getNumOfServers()+group2->getNumOfServers();
         std::shared_ptr<Server>* server_array_combined = new std::shared_ptr<Server>[arr_size];
         mergeArr(server_array1,server_array2,server_array_combined,arr_size,group1->getNumOfServers(),group2->getNumOfServers());
@@ -67,6 +67,8 @@ void mergeTrees(std::shared_ptr<DataCenterGroup> group1, std::shared_ptr<DataCen
         inorder<Key,Server,AddToTree>(new_tree->getHead(),pred3);
 
         postorder(new_tree->getHead(),setRanks);
+
+        group1->setTrafficRankTree(new_tree);
 
         delete[] server_array1;
         delete[] server_array2;
@@ -82,6 +84,7 @@ std::shared_ptr<DataCenterGroup> UnionFind::findDCGroup(int DC_ID){
     DataCenter* root=current_DC;
     current_DC = this->DCs_arr[DC_ID];
     DataCenter* prev_DC = current_DC;
+    //shrinking path to root
     while (current_DC->getNext()!= nullptr){
         current_DC = current_DC->getNext();
         prev_DC->setNext(root);
@@ -90,24 +93,22 @@ std::shared_ptr<DataCenterGroup> UnionFind::findDCGroup(int DC_ID){
     return current_DC->getGroup();
 }
 
+void unionGroups(std::shared_ptr<DataCenterGroup> group_big, std::shared_ptr<DataCenterGroup> group_small){
+    group_small->getRoot()->setGroup(nullptr);
+    group_small->getRoot()->setNext(group_big->getRoot());
+    mergeTrees(group_big, group_small);
+    group_big->setNumOfDCs(group_big->getNumOfDCs()+group_small->getNumOfDCs());
+    group_big->setNumOfServers(group_big->getNumOfServers()+group_small->getNumOfServers());
+}
+
 
 void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
     assert(DC_ID1>0 && DC_ID1<n);
     assert(DC_ID2>0 || DC_ID2<n);
     std::shared_ptr<DataCenterGroup> group1 = findDCGroup(DC_ID1);
     std::shared_ptr<DataCenterGroup> group2 = findDCGroup(DC_ID2);
-    if(group1->getNumOfDCs()>=group2->getNumOfDCs()){
-        group2->getRoot()->setNext(group1->getRoot());
-        mergeTrees(group1, group2);
-        group1->setNumOfDCs(group1->getNumOfDCs()+group2->getNumOfDCs());
-        group1->setNumOfServers(group1->getNumOfServers()+group2->getNumOfServers());
-    }
-    else {
-        group1->getRoot()->setNext(group2->getRoot());
-        mergeTrees(group2, group1);
-        group2->setNumOfDCs(group2->getNumOfDCs()+group1->getNumOfDCs());
-        group2->setNumOfServers(group2->getNumOfServers()+group1->getNumOfServers());
-    }
+    if(group1->getNumOfDCs()>=group2->getNumOfDCs()) unionGroups(group1,group2);
+    else unionGroups(group2,group1);
 }
 
 

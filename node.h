@@ -6,17 +6,18 @@ template <class K, class D>
 class Node{
 private :
     K key;
-    int traffic;
-    int nodeCount;
     std::shared_ptr<D> data;
     std::shared_ptr<Node> left;
     std::shared_ptr<Node> right;
     std::shared_ptr<Node> papa;
     int height;
+    int traffic;
+    int nodeCount;
+    int self_traffic;
 public:
     Node()= delete;
     Node(K key, std::shared_ptr<D> data,std::shared_ptr<Node> papa);
-
+    Node(K key, std::shared_ptr<D> data,std::shared_ptr<Node> papa, int self_traffic);
     ~Node() = default;
     Node(const Node&)= delete;
     std::shared_ptr<Node> operator=(const Node&)= delete;
@@ -27,6 +28,7 @@ public:
     const K& getKey() const;
     std::shared_ptr<D> getData();
     void setData(const D& data);
+    void setData(const std::shared_ptr<D>& data);
     std::shared_ptr<Node> getLeft();
     std::shared_ptr<Node> getRight();
     std::shared_ptr<Node> getPapa();
@@ -44,6 +46,7 @@ public:
     void setNodeCount(int nodeCount);
     int getTraffic();
     void setTraffic(int traffic);
+    void calcRank();
 };
 
 static int max(int a, int b){
@@ -52,7 +55,12 @@ static int max(int a, int b){
 }
 
 template <class K, class D>
-Node<K,D>::Node(K key, std::shared_ptr<D> data_ptr, std::shared_ptr<Node<K,D>> papa):key(key),data(data_ptr),papa(papa),height(1){}
+Node<K,D>::Node(K key, std::shared_ptr<D> data_ptr, std::shared_ptr<Node<K,D>> papa):key(key),data(data_ptr),papa(papa),height(1),traffic(0),nodeCount(1){}
+
+template <class K, class D>
+Node<K,D>::Node(K key, std::shared_ptr<D> data_ptr,std::shared_ptr<Node> papa, int traffic):key(key),data(data_ptr),
+                papa(papa),height(1),traffic(traffic),nodeCount(1), self_traffic(traffic){}
+
 
 /*
 template <class K, class D>
@@ -97,6 +105,12 @@ void Node<K,D>::setData(const D& data){
     delete this->data;
     this->data = new D(data);
 }
+
+template <class K, class D>
+void Node<K,D>::setData(const std::shared_ptr<D>& data){
+    this->data = data;
+}
+
 
 template <class K, class D>
 std::shared_ptr<Node<K,D>> Node<K,D>::getLeft(){
@@ -171,6 +185,26 @@ int Node<K,D>::getTraffic(){
 template <class K, class D>
 void Node<K,D>::setTraffic(int traffic){
     this->traffic=traffic;
+}
+
+template <class K, class D>
+void Node<K,D>::calcRank(){
+    if(this->getLeft()!= nullptr && this->getRight()!= nullptr){
+        this->traffic = this->getLeft()->getTraffic() + this->getRight()->getTraffic() + this->self_traffic;
+        this->nodeCount = this->getLeft()->getNodeCount() + this->getRight()->getNodeCount() + 1;
+    }
+    else if(this->getLeft()!= nullptr && this->getRight== nullptr){
+        this->traffic = this->getLeft()->getTraffic() + this->self_traffic;
+        this->nodeCount = this->getLeft()->getNodeCount() + 1;
+    }
+    else if(this->getLeft()== nullptr && this->getRight!= nullptr){
+        this->traffic = this->getRight()->getTraffic() + this->self_traffic;
+        this->nodeCount = this->getRight()->getNodeCount() + 1;
+    }
+    else{
+        this->traffic = this->self_traffic;
+        this->nodeCount = 1;
+    }
 }
 
 #endif

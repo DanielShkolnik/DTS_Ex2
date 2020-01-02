@@ -14,6 +14,7 @@ public:
     DataCenter* getNext();
     void setNext(DataCenter* next);
     std::shared_ptr<DataCenterGroup> getGroup();
+    void setGroup(const std::shared_ptr<DataCenterGroup>& group);
     explicit DataCenter(int ID):DC_ID(ID),next(nullptr),group(nullptr){};
     ~DataCenter() = default;
     DataCenter& operator=(const DataCenter& dc) = delete;
