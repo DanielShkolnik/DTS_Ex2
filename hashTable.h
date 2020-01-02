@@ -6,7 +6,7 @@
 #define DTS_EX2_HashTable_H
 
 #include "chainNode.h"
-
+#include <memory>
 
 class HashTable{
 private:
@@ -20,6 +20,7 @@ private:
     void addServer(int index, int server_id, int DC_id);
     void removeServer(int index,int server_id);
     int hash(int server_id);
+    std::shared_ptr<Server> getServer(int server_id);
 public:
     class ServerExsist{};
     class ServerNotExsist{};
@@ -31,5 +32,6 @@ public:
     void remove(int server_id);
     int getDCID(int server_id);
     int getTraffic(int server_id);
+    void setTraffic(int server_id, int traffic);
 };
 #endif //DTS_EX2_HashTable_H

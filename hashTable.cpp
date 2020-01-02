@@ -138,23 +138,27 @@ void HashTable::remove(int server_id){
     this->removeServer(index,server_id);
 }
 
-int HashTable::getDCID(int server_id){
+std::shared_ptr<Server> HashTable::getServer(int server_id){
     int index = this->hash(server_id);
     ChainNode* current = this->arr[index];
     while (current){
         if(current->getData()->getID() == server_id){
-            return current->getData()->getDCID();
+            return current->getData();
         }
     }
     throw HashTable::ServerNotExsist();
 }
+
+int HashTable::getDCID(int server_id){
+    std::shared_ptr<Server> server = this->getServer(server_id);
+    return server->getDCID();
+}
 int HashTable::getTraffic(int server_id){
-    int index = this->hash(server_id);
-    ChainNode* current = this->arr[index];
-    while (current){
-        if(current->getData()->getID() == server_id){
-            return current->getData()->getTraffic();
-        }
-    }
-    throw HashTable::ServerNotExsist();
+    std::shared_ptr<Server> server = this->getServer(server_id);
+    return server->getTraffic();
+}
+
+void HashTable::setTraffic(int server_id, int traffic){
+    std::shared_ptr<Server> server = this->getServer(server_id);
+    server->setTraffic(traffic);
 }
