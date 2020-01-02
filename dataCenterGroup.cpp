@@ -30,3 +30,8 @@ void DataCenterGroup::setTrafficRankTree(Avl<Key,Server>* tree){
     delete this->traffic_rank_tree;
     this->traffic_rank_tree=tree;
 }
+
+void DataCenterGroup::removeServer(int server_ID, int traffic){
+    Key key(server_ID,traffic);
+    this->traffic_rank_tree->delete_element(key);
+}

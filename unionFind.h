@@ -21,7 +21,7 @@ public:
     ~UnionFind();
     UnionFind& operator=(const DataCenter& dc) = delete;
     UnionFind(const DataCenter& dc) = delete;
-
+    void removeServer(int DC_ID, int server_ID, int traffic);
 };
 
 
