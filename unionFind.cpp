@@ -95,7 +95,7 @@ void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
 }
 
 DataCenter* UnionFind::findDCRoot(int DC_ID){
-    assert(DC_ID>0 && DC_ID<n);
+    assert(DC_ID>0 && DC_ID<=n);
     DataCenter* current_DC = this->DCs_arr[DC_ID];
     while (current_DC->getNext()!= nullptr){
         current_DC = current_DC->getNext();

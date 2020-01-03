@@ -4,7 +4,7 @@
 
 #include "hashTable.h"
 #include "assert.h"
-#define MAGICSIZE 17
+#define MAGICSIZE 300
 
 void initArr(ChainNode** array, int size){
     for(int i=0; i<size; i++){
@@ -20,7 +20,7 @@ void HashTable::doubleSize(){
     for(int i=0; i<this->num_of_occupied_cells; i++){
         ChainNode* current = this->arr[i];
         while (current){
-            int index = this->hash(current->getData()->getID());
+            int index = this->hash(current->getData()->getID(),new_size);
             newArr[index] = current;
             current = current->getNext();
         }
@@ -49,19 +49,20 @@ void HashTable::deleteChain(int index) {
 
 void HashTable::halfSize(){
     int prev_size = this->size;
-    this->size = this->size/2;
-    ChainNode** newArr = new ChainNode*[this->size];
-    initArr(newArr,this->size);
+    int new_size = this->size/2;
+    ChainNode** newArr = new ChainNode*[new_size];
+    initArr(newArr,new_size);
 
     for(int i=0; i<prev_size; i++){
         ChainNode* current = this->arr[i];
         while (current){
-            int index = this->hash(current->getData()->getID());
+            int index = this->hash(current->getData()->getID(),new_size);
             newArr[index] = current;
             current = current->getNext();
         }
     }
     this->deleteArr();
+    this->size = new_size;
     this->arr = newArr;
 }
 
@@ -122,15 +123,15 @@ HashTable::~HashTable(){
     this->deleteArr();
 }
 
-int HashTable::hash(int server_id){
-    return server_id%this->size;
+int HashTable::hash(int server_id, int size){
+    return server_id%size;
 }
 
 void HashTable::add(int server_id, int DC_id){
     if(this->num_of_occupied_cells == this->size){
         this->doubleSize();
     }
-    int index = this->hash(server_id);
+    int index = this->hash(server_id,this->size);
     this->addServer(index,server_id,DC_id);
 }
 
@@ -138,12 +139,12 @@ void HashTable::remove(int server_id){
     if(this->num_of_occupied_cells == this->size/4 && this->size > MAGICSIZE){
         this->halfSize();
     }
-    int index = this->hash(server_id);
+    int index = this->hash(server_id,this->size);
     this->removeServer(index,server_id);
 }
 
 std::shared_ptr<Server> HashTable::getServer(int server_id){
-    int index = this->hash(server_id);
+    int index = this->hash(server_id,this->size);
     ChainNode* current = this->arr[index];
     while (current){
         if(current->getData()->getID() == server_id){

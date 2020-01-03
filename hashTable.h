@@ -19,7 +19,7 @@ private:
     void deleteArr();
     void addServer(int index, int server_id, int DC_id);
     void removeServer(int index,int server_id);
-    int hash(int server_id);
+    int hash(int server_id, int size);
 
 public:
     class ServerExsist{};

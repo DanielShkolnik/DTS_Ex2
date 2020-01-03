@@ -38,8 +38,14 @@ StatusType DataCenterManager::RemoveServer(int serverID){
         int server_traffic = this->servers_hash_table.getTraffic(serverID);
         int server_DC_ID = this->servers_hash_table.getDCID(serverID);
         Key key(serverID,server_traffic);
-        this->servers_traffic.delete_element(key);
-        this->DCGroups.removeServer(server_DC_ID, serverID, server_traffic);
+        try{
+            this->servers_traffic.delete_element(key);
+            this->DCGroups.removeServer(server_DC_ID, serverID, server_traffic);
+        }
+        catch(Avl<Key,Server>::KeyNotFound& e){
+
+        }
+        this->servers_hash_table.remove(serverID);
         this->num_of_servers--;
         return SUCCESS;
     }
@@ -89,7 +95,8 @@ int sumTraffic(const std::shared_ptr<Node<Key,Server>>& root, int k, int sum_tra
     }
     // then your k from right(max)
     if(right_count == k-1){
-        return root->getRight()->getTraffic() + root->getSelfTraffic();
+        if(root->getRight() != nullptr) return root->getRight()->getTraffic() + root->getSelfTraffic() + sum_traffic;
+        else return root->getSelfTraffic() + sum_traffic;
     }
     // search right
     if(right_count > k-1){
