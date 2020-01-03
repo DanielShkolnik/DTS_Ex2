@@ -45,7 +45,7 @@ public:
     int getNodeCount();
     void setNodeCount(int nodeCount);
     int getTraffic();
-    void setTraffic(int traffic);
+    void setSelfTraffic(int traffic);
     void calcRank();
     int getSelfTraffic();
 };
@@ -184,8 +184,8 @@ int Node<K,D>::getTraffic(){
 }
 
 template <class K, class D>
-void Node<K,D>::setTraffic(int traffic){
-    this->traffic=traffic;
+void Node<K,D>::setSelfTraffic(int traffic){
+    this->self_traffic=traffic;
 }
 
 template <class K, class D>

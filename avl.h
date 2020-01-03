@@ -339,12 +339,20 @@ void Avl<K,D>::treeClear() {
 template <class K, class D>
 Avl<K,D>::Avl(int size){
     std::shared_ptr<Node<K,D>> node_arr[size+1];
+    // init array with offset 1 of pointers to empty nodes
     for(int i=1; i<=size; i++){
         node_arr[i] = std::shared_ptr<Node<K,D>>(new Node<K,D>());
     }
+    // algorithm to build a tree from an array
     for(int i=1; i<=size; i++){
-        if(2*i<size) fix_relations(node_arr[i],node_arr[2*i]);
-        if(2*i+1<size) fix_relations(node_arr[i],node_arr[2*i+1]);
+        if(2*i<size){
+            node_arr[i]->setLeft(node_arr[2*i]);
+            node_arr[2*i]->setPapa(node_arr[i]);
+        }
+        if(2*i+1<size){
+            node_arr[i]->setRight(node_arr[2*i+1]);
+            node_arr[2*i+1]->setPapa(node_arr[i]);
+        }
     }
 }
 

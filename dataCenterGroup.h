@@ -22,8 +22,8 @@ public:
     Avl<Key,Server>* getTrafficRankTree();
     void setTrafficRankTree(Avl<Key,Server>* tree);
 
-    explicit DataCenterGroup(): traffic_rank_tree(nullptr), num_of_DCs(0),num_of_Servers(0){};
-    ~DataCenterGroup() = default;
+    DataCenterGroup(): traffic_rank_tree(new Avl<Key,Server>), num_of_DCs(1),num_of_Servers(0){};
+    ~DataCenterGroup();
     DataCenterGroup& operator=(const DataCenterGroup& dc) = delete;
     DataCenterGroup(const DataCenterGroup& dc) = delete;
     void removeServer(int server_ID, int traffic);

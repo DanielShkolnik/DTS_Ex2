@@ -79,6 +79,9 @@ void HashTable::addServer(int index, int server_id, int DC_id){
         }
         current = current->getNext();
     }
+    if(current->getData()->getID()== server_id){
+        throw HashTable::ServerExsist();
+    }
     ChainNode* newNode = new ChainNode(server_id,DC_id);
     current->setNext(newNode);
     this->num_of_occupied_cells++;

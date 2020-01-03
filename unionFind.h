@@ -10,15 +10,14 @@
 
 class UnionFind{
 private:
-    std::shared_ptr<DataCenterGroup>* groups_arr;
     DataCenter** DCs_arr;
-    int n;
+    int n; // number of DCs
 
 public:
     std::shared_ptr<DataCenterGroup> findDCGroup(int DC_ID);
     DataCenter* findDCRoot(int DC_ID);
     void unionDCs(int DC_ID1, int DC_ID2);
-    explicit UnionFind(int n):groups_arr(new std::shared_ptr<DataCenterGroup>[n]), DCs_arr(new DataCenter*[n]), n(n){};
+    explicit UnionFind(int n);
     ~UnionFind();
     UnionFind& operator=(const DataCenter& dc) = delete;
     UnionFind(const DataCenter& dc) = delete;
@@ -47,6 +46,7 @@ private:
 public:
     void operator()(const std::shared_ptr<Node<Key,Server>>& node){
         node->setData((this->server_array)[i]);
+        node->setSelfTraffic((this->server_array)[i]->getTraffic());
         i++;
     }
     explicit AddToTree(std::shared_ptr<Server>* server_array):i(0),server_array(server_array){};

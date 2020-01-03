@@ -5,7 +5,7 @@
 #include "key.h"
 
 bool Key::operator<(const Key& other) const {
-    if(this->traffic>other.traffic) return true;
+    if(this->traffic<other.traffic) return true;
     else if(this->traffic==other.traffic){
         return this->server_ID<other.server_ID;
     }
