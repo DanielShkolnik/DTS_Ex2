@@ -14,9 +14,9 @@ void initArr(ChainNode** array, int size){
 
 void HashTable::doubleSize(){
     assert(this->num_of_occupied_cells == this->size);
-    this->size = this->size*2;
-    ChainNode** newArr = new ChainNode*[this->size];
-    initArr(newArr,this->size);
+    int new_size = this->size*2;
+    ChainNode** newArr = new ChainNode*[new_size];
+    initArr(newArr,new_size);
     for(int i=0; i<this->num_of_occupied_cells; i++){
         ChainNode* current = this->arr[i];
         while (current){
@@ -26,6 +26,7 @@ void HashTable::doubleSize(){
         }
     }
     this->deleteArr();
+    this->size=new_size;
     this->arr = newArr;
 }
 
