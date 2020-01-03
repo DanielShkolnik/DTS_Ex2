@@ -2,6 +2,7 @@
 #define DTS_EX2_DATACENTER_H
 
 #include "dataCenterGroup.h"
+#include <memory>
 
 class DataCenter{
 private:

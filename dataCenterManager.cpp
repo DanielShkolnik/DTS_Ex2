@@ -80,7 +80,7 @@ StatusType DataCenterManager::SetTraffic(int serverID, int traffic){
 int sumTraffic(const std::shared_ptr<Node<Key,Server>>& root, int k, int sum_traffic){
     // then your k from right(max)
     if(root->getRight()->getNodeCount() == k-1){
-        return root->getLeft()->getTraffic() + root->getSelfTraffic();
+        return root->getRight()->getTraffic() + root->getSelfTraffic();
     }
     // search right
     if(root->getRight()->getNodeCount() > k-1){
@@ -95,9 +95,20 @@ int sumTraffic(const std::shared_ptr<Node<Key,Server>>& root, int k, int sum_tra
 }
 
 StatusType DataCenterManager::SumHighestTrafficServers(int dataCenterID, int k, int* traffic){
-    // TO DO
-    std::shared_ptr<DataCenterGroup> DC_group = this->DCGroups.findDCGroup(dataCenterID);
-    std::shared_ptr<Node<Key,Server>> root = DC_group->getTrafficRankTree()->getHead();
-    *traffic = sumTraffic(root,k,0);
+    if(k < 0 || dataCenterID > this->num_of_DCs || dataCenterID < 0 || traffic == nullptr) return INVALID_INPUT;
+    try{
+        if(dataCenterID !=0){
+            std::shared_ptr<DataCenterGroup> DC_group = this->DCGroups.findDCGroup(dataCenterID);
+            std::shared_ptr<Node<Key,Server>> root = DC_group->getTrafficRankTree()->getHead();
+            *traffic = sumTraffic(root,k,0);
+        }
+        else{
+            *traffic = sumTraffic(this->servers_traffic.getHead(),k,0);
+        }
+        return SUCCESS;
+    }
+    catch(std::bad_alloc& e){
+        return ALLOCATION_ERROR;
+    }
 }
 
