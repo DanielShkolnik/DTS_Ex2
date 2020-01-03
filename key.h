@@ -4,10 +4,11 @@
 
 class Key{
 private:
-    int searver_ID;
+    int server_ID;
     int traffic;
 public:
-    Key(int id, int traffic):searver_ID(id),traffic(traffic){};
+    Key():server_ID(0),traffic(0){};
+    Key(int id, int traffic):server_ID(id),traffic(traffic){};
     ~Key()= default;
     Key(const Key& key)= default;
     Key& operator=(const Key& key)= default;

@@ -338,9 +338,9 @@ void Avl<K,D>::treeClear() {
 
 template <class K, class D>
 Avl<K,D>::Avl(int size){
-    std::shared_ptr<Node<K,D>>* node_arr[size+1];
+    std::shared_ptr<Node<K,D>> node_arr[size+1];
     for(int i=1; i<=size; i++){
-        node_arr[i] = std::shared_ptr<Node<K,D>>(new Node<K,D>(nullptr,nullptr,nullptr));
+        node_arr[i] = std::shared_ptr<Node<K,D>>(new Node<K,D>());
     }
     for(int i=1; i<=size; i++){
         if(2*i<size) fix_relations(node_arr[i],node_arr[2*i]);

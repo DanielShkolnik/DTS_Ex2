@@ -15,7 +15,7 @@ private :
     int nodeCount;
     int self_traffic;
 public:
-    Node()= delete;
+    Node():key(),data(nullptr),left(nullptr),right(nullptr),papa(nullptr),height(1),traffic(0),nodeCount(1),self_traffic(0){};
     Node(K key, std::shared_ptr<D> data,std::shared_ptr<Node> papa);
     Node(K key, std::shared_ptr<D> data,std::shared_ptr<Node> papa, int self_traffic);
     ~Node() = default;
@@ -194,11 +194,11 @@ void Node<K,D>::calcRank(){
         this->traffic = this->getLeft()->getTraffic() + this->getRight()->getTraffic() + this->self_traffic;
         this->nodeCount = this->getLeft()->getNodeCount() + this->getRight()->getNodeCount() + 1;
     }
-    else if(this->getLeft()!= nullptr && this->getRight== nullptr){
+    else if(this->getLeft()!= nullptr && this->getRight()== nullptr){
         this->traffic = this->getLeft()->getTraffic() + this->self_traffic;
         this->nodeCount = this->getLeft()->getNodeCount() + 1;
     }
-    else if(this->getLeft()== nullptr && this->getRight!= nullptr){
+    else if(this->getLeft()== nullptr && this->getRight()!= nullptr){
         this->traffic = this->getRight()->getTraffic() + this->self_traffic;
         this->nodeCount = this->getRight()->getNodeCount() + 1;
     }

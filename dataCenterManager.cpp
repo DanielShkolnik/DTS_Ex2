@@ -87,11 +87,10 @@ int sumTraffic(const std::shared_ptr<Node<Key,Server>>& root, int k, int sum_tra
         return sumTraffic(root->getRight(),k, sum_traffic);
     }
     // search left  and increase sum_traffic of bigger servers by traffic.
-    if(root->getRight()->getNodeCount() < k-1){
+    else{
         sum_traffic += root->getRight()->getTraffic();
         return sumTraffic(root->getLeft(),k  - root->getRight()->getNodeCount() -1, sum_traffic);
     }
-
 }
 
 StatusType DataCenterManager::SumHighestTrafficServers(int dataCenterID, int k, int* traffic){
