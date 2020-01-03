@@ -47,6 +47,8 @@ public:
     void operator()(const std::shared_ptr<Node<Key,Server>>& node){
         node->setData((this->server_array)[i]);
         node->setSelfTraffic((this->server_array)[i]->getTraffic());
+        Key key((this->server_array)[i]->getID(), (this->server_array)[i]->getTraffic());
+        node->setKey(key);
         i++;
     }
     explicit AddToTree(std::shared_ptr<Server>* server_array):i(0),server_array(server_array){};

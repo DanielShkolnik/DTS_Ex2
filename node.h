@@ -48,6 +48,7 @@ public:
     void setSelfTraffic(int traffic);
     void calcRank();
     int getSelfTraffic();
+    void setKey(const K& key);
 };
 
 static int max(int a, int b){
@@ -211,6 +212,10 @@ void Node<K,D>::calcRank(){
 template <class K, class D>
 int Node<K,D>::getSelfTraffic(){
     return this->self_traffic;
+}
+template <class K, class D>
+void Node<K,D>::setKey(const K& key){
+    this->key = key;
 }
 
 #endif

@@ -15,10 +15,10 @@ private:
     HashTable servers_hash_table;
     Avl<Key,Server> servers_traffic;
     int num_of_DCs;
-
+    int num_of_servers;
 
 public:
-    explicit DataCenterManager(int num_of_DCs):DCGroups(num_of_DCs),servers_hash_table(),servers_traffic(),num_of_DCs(num_of_DCs){};
+    explicit DataCenterManager(int num_of_DCs):DCGroups(num_of_DCs),servers_hash_table(),servers_traffic(),num_of_DCs(num_of_DCs), num_of_servers(0){};
     ~DataCenterManager() = default;
     DataCenterManager& operator=(const DataCenterManager& dc) = delete;
     DataCenterManager(const DataCenterManager& dc) = delete;

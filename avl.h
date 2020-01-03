@@ -17,7 +17,7 @@ public:
     ~Avl();
     Avl(const Avl& avl)= delete;
     Avl& operator=(const Avl& avl)= delete;
-    void insert(const K& key, std::shared_ptr<D> data); // Daniel
+    void insert(const K& key, std::shared_ptr<D> data, int traffic); // Daniel
     void delete_element(const K& key); // Omer
     std::shared_ptr<D> find(const K& key); // Omer
     std::shared_ptr<Node<K,D>> getHead();
@@ -35,9 +35,9 @@ public:
 };
 
 template <class K, class D>
-void Avl<K,D>::insert(const K& key, std::shared_ptr<D> data){
+void Avl<K,D>::insert(const K& key, std::shared_ptr<D> data, int traffic){
     std::shared_ptr<Node<K,D>> nearest_node=this->find_nearest(key);
-    std::shared_ptr<Node<K,D>> new_node_ptr = std::shared_ptr<Node<K,D>>(new Node<K,D>(key,data,nearest_node));
+    std::shared_ptr<Node<K,D>> new_node_ptr = std::shared_ptr<Node<K,D>>(new Node<K,D>(key,data,nearest_node,traffic));
     if(nearest_node == nullptr){
         this->head=new_node_ptr;
         return;
@@ -344,12 +344,13 @@ Avl<K,D>::Avl(int size){
         node_arr[i] = std::shared_ptr<Node<K,D>>(new Node<K,D>());
     }
     // algorithm to build a tree from an array
+    this->head = node_arr[1];
     for(int i=1; i<=size; i++){
-        if(2*i<size){
+        if(2*i<=size){
             node_arr[i]->setLeft(node_arr[2*i]);
             node_arr[2*i]->setPapa(node_arr[i]);
         }
-        if(2*i+1<size){
+        if(2*i+1<=size){
             node_arr[i]->setRight(node_arr[2*i+1]);
             node_arr[2*i+1]->setPapa(node_arr[i]);
         }

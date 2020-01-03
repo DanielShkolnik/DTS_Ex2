@@ -3,14 +3,6 @@
 
 
 
-bool compareKeys(int traffic1, int ID1, int traffic2, int ID2){
-    if(traffic1<traffic2) return true;
-    else if(traffic2<traffic1) return false;
-    else{
-        return ID1-ID2<0;
-    }
-}
-
 
 void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* server_array2,
         std::shared_ptr<Server>* server_array_combined, int combined_arr_size, int arr1_size, int arr2_size){
@@ -18,8 +10,9 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
     int server_array2_index=0;
     int server_array_combined_index=0;
     while(server_array1_index<arr1_size && server_array2_index<arr2_size){
-        if(compareKeys(server_array1[server_array1_index]->getTraffic(),server_array1[server_array1_index]->getID(),
-                       server_array2[server_array2_index]->getTraffic(),server_array2[server_array2_index]->getID())){
+        Key key1(server_array1[server_array1_index]->getID(),server_array1[server_array1_index]->getTraffic());
+        Key key2(server_array2[server_array2_index]->getID(),server_array2[server_array2_index]->getTraffic());
+        if(key1 < key2){
             server_array_combined[server_array_combined_index]=server_array1[server_array1_index];
             server_array1_index++;
             server_array_combined_index++;
@@ -36,7 +29,7 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
         server_array_combined_index++;
     }
     while(server_array2_index<arr2_size){
-        server_array_combined[server_array_combined_index]=server_array1[server_array2_index];
+        server_array_combined[server_array_combined_index]=server_array2[server_array2_index];
         server_array2_index++;
         server_array_combined_index++;
     }
@@ -44,6 +37,7 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
 
 
 void setRanks(const std::shared_ptr<Node<Key,Server>>& node){
+    node->calcHeight();
     node->calcRank();
 }
 

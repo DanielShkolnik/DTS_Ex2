@@ -37,7 +37,7 @@ void DataCenterGroup::removeServer(int server_ID, int traffic){
 void DataCenterGroup::addServer(int serverID, int traffic, const std::shared_ptr<Server>& server){
     Key key(serverID,traffic);
     this->num_of_Servers++;
-    this->traffic_rank_tree->insert(key,server);
+    this->traffic_rank_tree->insert(key,server, traffic);
 }
 
 DataCenterGroup::~DataCenterGroup(){
