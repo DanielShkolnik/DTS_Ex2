@@ -20,7 +20,7 @@ void coppyToNew(int index, ChainNode** arr, ChainNode* element){
         return;
     }
 
-    while (current->getNext()){
+    while (current->getNext()!= nullptr){
         current = current->getNext();
     }
     current->setNext(element);
