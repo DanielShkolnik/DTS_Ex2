@@ -4,6 +4,8 @@
 
 #ifndef DTS_EX2_SERVER_H
 #define DTS_EX2_SERVER_H
+#include <iostream>
+
 class Server{
 private:
     int server_id;
@@ -15,5 +17,10 @@ public:
     int getTraffic();
     int getID();
     int getDCID();
+    Server(const Server&) = delete;
+    Server& operator=(const Server&) = delete;
+    ~Server(){
+        std::cout << "~Server()" << std::endl;
+    }
 };
 #endif //DTS_EX2_SERVER_H

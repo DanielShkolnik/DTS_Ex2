@@ -15,7 +15,7 @@ void initArr(ChainNode** array, int size){
 
 void coppyToNew(int index, ChainNode** arr, ChainNode* element){
     ChainNode* current = arr[index];
-    if(!current){
+    if(current == nullptr){
         arr[index] = element;
         return;
     }
@@ -35,10 +35,10 @@ void HashTable::doubleSize(){
         ChainNode* current = this->arr[i];
         while (current){
             int index = this->hash(current->getData()->getID(),new_size);
+            ChainNode* next = current->getNext();
+            current->setNext(nullptr);
             coppyToNew(index,newArr,current);
-            ChainNode* prev = current;
-            current = current->getNext();
-            prev->setNext(nullptr);
+            current = next;
         }
     }
     this->deleteArr();
