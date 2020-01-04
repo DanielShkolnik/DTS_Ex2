@@ -152,6 +152,22 @@ int main() {
     s=SumHighestTrafficServers(*DS,0,6,&sum);
     assert(s==SUCCESS && sum==100+90+70+60+50+50);
 
+    s=RemoveServer(*DS,11);
+    assert(s==SUCCESS);
+    s=RemoveServer(*DS,10);
+    assert(s==SUCCESS);
+    s=RemoveServer(*DS,9);
+    assert(s==SUCCESS);
+    s=RemoveServer(*DS,7);
+    assert(s==SUCCESS);
+    s=RemoveServer(*DS,6);
+    assert(s==SUCCESS);
+    s=RemoveServer(*DS,5);
+    assert(s==SUCCESS);
+    s=RemoveServer(*DS,2);
+    assert(s==SUCCESS);
+    s=SumHighestTrafficServers(*DS,0,1,&sum);
+    assert(s==SUCCESS && sum==10);
     cout<<"***************************QUIT*********************"<<"\n";
     Quit(DS);
     delete DS;
