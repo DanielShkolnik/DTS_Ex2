@@ -2,8 +2,7 @@
 #include "unionFind.h"
 
 
-
-
+//merge 2 Server arrays for function unionGroups
 void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* server_array2,
         std::shared_ptr<Server>* server_array_combined, int combined_arr_size, int arr1_size, int arr2_size){
     int server_array1_index=0;
@@ -12,6 +11,7 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
     while(server_array1_index<arr1_size && server_array2_index<arr2_size){
         Key key1(server_array1[server_array1_index]->getID(),server_array1[server_array1_index]->getTraffic());
         Key key2(server_array2[server_array2_index]->getID(),server_array2[server_array2_index]->getTraffic());
+        //first insert the lower key
         if(key1 < key2){
             server_array_combined[server_array_combined_index]=server_array1[server_array1_index];
             server_array1_index++;
@@ -23,11 +23,13 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
             server_array_combined_index++;
         }
     }
+    //insert array1 cells if array2 allready finished
     while(server_array1_index<arr1_size){
         server_array_combined[server_array_combined_index]=server_array1[server_array1_index];
         server_array1_index++;
         server_array_combined_index++;
     }
+    //insert array2 cells if array1 allready finished
     while(server_array2_index<arr2_size){
         server_array_combined[server_array_combined_index]=server_array2[server_array2_index];
         server_array2_index++;
@@ -35,44 +37,51 @@ void mergeArr(std::shared_ptr<Server>* server_array1, std::shared_ptr<Server>* s
     }
 }
 
-
+//set the ranks of the rank tree
 void setRanks(const std::shared_ptr<Node<Key,Server>>& node){
     node->calcHeight();
     node->calcRank();
 }
 
-
+//merge two rank avl trees
 void mergeTrees(std::shared_ptr<DataCenterGroup> group1, std::shared_ptr<DataCenterGroup> group2){
     assert(group1 != nullptr && group2 != nullptr);
-        std::shared_ptr<Server>* server_array1 = new std::shared_ptr<Server>[group1->getNumOfServers()];
-        AddToArray pred1(server_array1);
-        inorder<Key,Server,AddToArray>(group1->getTrafficRankTree()->getHead(),pred1);
 
-        std::shared_ptr<Server>* server_array2 = new std::shared_ptr<Server>[group2->getNumOfServers()];
-        AddToArray pred2(server_array2);
-        inorder<Key,Server,AddToArray>(group2->getTrafficRankTree()->getHead(),pred2);
+    //copy first avl rank tree nodes to array
+    std::shared_ptr<Server>* server_array1 = new std::shared_ptr<Server>[group1->getNumOfServers()];
+    AddToArray pred1(server_array1);
+    inorder<Key,Server,AddToArray>(group1->getTrafficRankTree()->getHead(),pred1);
 
-        int arr_size=group1->getNumOfServers()+group2->getNumOfServers();
-        std::shared_ptr<Server>* server_array_combined = new std::shared_ptr<Server>[arr_size];
-        mergeArr(server_array1,server_array2,server_array_combined,arr_size,group1->getNumOfServers(),group2->getNumOfServers());
-        Avl<Key,Server>* new_tree = new Avl<Key,Server>(arr_size);
+    //copy first avl rank tree nodes to array
+    std::shared_ptr<Server>* server_array2 = new std::shared_ptr<Server>[group2->getNumOfServers()];
+    AddToArray pred2(server_array2);
+    inorder<Key,Server,AddToArray>(group2->getTrafficRankTree()->getHead(),pred2);
 
-        AddToTree pred3(server_array_combined);
-        inorder<Key,Server,AddToTree>(new_tree->getHead(),pred3);
+    //create new array and merge array1 and array2
+    int arr_size=group1->getNumOfServers()+group2->getNumOfServers();
+    std::shared_ptr<Server>* server_array_combined = new std::shared_ptr<Server>[arr_size];
+    mergeArr(server_array1,server_array2,server_array_combined,arr_size,group1->getNumOfServers(),group2->getNumOfServers());
 
-        postorder(new_tree->getHead(),setRanks);
+    //create empty almost complete tree
+    Avl<Key,Server>* new_tree = new Avl<Key,Server>(arr_size);
+    //copy cells from new array to the empty almost complete tree
+    AddToTree pred3(server_array_combined);
+    inorder<Key,Server,AddToTree>(new_tree->getHead(),pred3);
+    //set the ranks in the new tree
+    postorder(new_tree->getHead(),setRanks);
 
-        group1->setTrafficRankTree(new_tree);
-
-        delete[] server_array1;
-        delete[] server_array2;
-        delete[] server_array_combined;
+    group1->setTrafficRankTree(new_tree);
+    delete[] server_array1;
+    delete[] server_array2;
+    delete[] server_array_combined;
 }
 
+//find the DC_Group of DC_ID
 std::shared_ptr<DataCenterGroup> UnionFind::findDCGroup(int DC_ID){
     return findDCRoot(DC_ID)->getGroup();
 }
 
+//union two DataCenterGroups
 void unionGroups(DataCenter* root_big, DataCenter* root_small){
     std::shared_ptr<DataCenterGroup> group_big = root_big->getGroup();
     std::shared_ptr<DataCenterGroup> group_small = root_small->getGroup();
@@ -84,7 +93,7 @@ void unionGroups(DataCenter* root_big, DataCenter* root_small){
 }
 
 
-
+//union two Data Centers
 void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
     assert(DC_ID1>0 && DC_ID1<n);
     assert(DC_ID2>0 || DC_ID2<n);
@@ -94,6 +103,7 @@ void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
     else unionGroups(root2,root1);
 }
 
+//find the DataCenter_root of DC_ID
 DataCenter* UnionFind::findDCRoot(int DC_ID){
     assert(DC_ID>0 && DC_ID<=n);
     DataCenter* current_DC = this->DCs_arr[DC_ID];
