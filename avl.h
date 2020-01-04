@@ -3,6 +3,7 @@
 
 #include "node.h"
 #include <memory>
+#include <iostream>
 template <class K, class D>
 class Avl{
 private:
@@ -251,10 +252,11 @@ void Avl<K,D>::fix_BFs(std::shared_ptr<Node<K,D>> node){
         std::shared_ptr<Node<K,D>> prev = current;
         current = current->getPapa();
         int BF = this->getBF(prev);
+        /*
         if(prev_height == prev->getHeight() && BF <2 && BF > -2){
             return;
         }
-
+        */
         //LL
         if(BF == 2 && this->getBF(prev->getLeft())>=0){
             this->rotateLL(prev);
@@ -329,6 +331,7 @@ void destroy(const std::shared_ptr<Node<K,D>>& node){
 template <class K, class D>
 Avl<K,D>::~Avl(){
     postorder<K,D,void (const std::shared_ptr<Node<K,D>>& node)>(this->head,destroy);
+    std::cout << "~Avl()"<< std::endl;
 }
 
 template <class K, class D>

@@ -42,4 +42,5 @@ void DataCenterGroup::addServer(int serverID, int traffic, const std::shared_ptr
 
 DataCenterGroup::~DataCenterGroup(){
     delete this->traffic_rank_tree;
+    std::cout << "~DataCenterGroup()"<< std::endl;
 }

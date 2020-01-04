@@ -33,7 +33,7 @@ StatusType SumHighestTrafficServers(void *DS, int dataCenterID,  int k, int* tra
 }
 
 void Quit(void** DS){
-    delete *(DataCenterManager **)DS;
+    delete *(DataCenterManager** )DS;
     *DS = nullptr;
 }
 

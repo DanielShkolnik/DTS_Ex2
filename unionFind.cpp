@@ -112,7 +112,7 @@ DataCenter* UnionFind::findDCRoot(int DC_ID){
     return current_DC;
 }
 
-UnionFind::UnionFind(int n): DCs_arr(new DataCenter*[n]), n(n){
+UnionFind::UnionFind(int n): DCs_arr(new DataCenter*[n+1]), n(n){
     this->DCs_arr[0] = nullptr;
     for(int i=1; i<=n; i++){
         this->DCs_arr[i] = new DataCenter(i);
@@ -121,10 +121,12 @@ UnionFind::UnionFind(int n): DCs_arr(new DataCenter*[n]), n(n){
 
 
 UnionFind::~UnionFind(){
-    for(int i=0; i<this->n; i++){
+    for(int i=1; i<=this->n; i++){
+        std::cout << "DC:" << i << std::endl;
         delete this->DCs_arr[i];
     }
     delete[] DCs_arr;
+    std::cout << "~UnionFind()" << std::endl;
 }
 
 void UnionFind::removeServer(int DC_ID, int server_ID, int traffic){

@@ -4,6 +4,7 @@
 
 #include "hashTable.h"
 #include "assert.h"
+#include <iostream>
 #define MAGICSIZE 300
 
 void initArr(ChainNode** array, int size){
@@ -121,6 +122,7 @@ void HashTable::removeServer(int index,int server_id){
 
 HashTable::~HashTable(){
     this->deleteArr();
+    std::cout << "~hashTable()"<< std::endl;
 }
 
 int HashTable::hash(int server_id, int size){
