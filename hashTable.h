@@ -35,4 +35,5 @@ public:
     void setTraffic(int server_id, int traffic);
     std::shared_ptr<Server> getServer(int server_id);
 };
+void addToArr(int index, int server_id, int DC_id, ChainNode** arr);
 #endif //DTS_EX2_HashTable_H

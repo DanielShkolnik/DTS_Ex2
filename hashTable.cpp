@@ -5,12 +5,25 @@
 #include "hashTable.h"
 #include "assert.h"
 #include <iostream>
-#define MAGICSIZE 300
+#define MAGICSIZE 1
 
 void initArr(ChainNode** array, int size){
     for(int i=0; i<size; i++){
         array[i] = nullptr;
     }
+}
+
+void coppyToNew(int index, ChainNode** arr, ChainNode* element){
+    ChainNode* current = arr[index];
+    if(!current){
+        arr[index] = element;
+        return;
+    }
+
+    while (current->getNext()){
+        current = current->getNext();
+    }
+    current->setNext(element);
 }
 
 void HashTable::doubleSize(){
@@ -22,8 +35,10 @@ void HashTable::doubleSize(){
         ChainNode* current = this->arr[i];
         while (current){
             int index = this->hash(current->getData()->getID(),new_size);
-            newArr[index] = current;
+            coppyToNew(index,newArr,current);
+            ChainNode* prev = current;
             current = current->getNext();
+            prev->setNext(nullptr);
         }
     }
     this->deleteArr();
@@ -67,12 +82,11 @@ void HashTable::halfSize(){
     this->arr = newArr;
 }
 
-void HashTable::addServer(int index, int server_id, int DC_id){
-    ChainNode* current = this->arr[index];
+void addToArr(int index, int server_id, int DC_id, ChainNode** arr){
+    ChainNode* current = arr[index];
     if(!current){
         ChainNode* newNode = new ChainNode(server_id,DC_id);
-        this->arr[index] = newNode;
-        this->num_of_occupied_cells++;
+        arr[index] = newNode;
         return;
     }
 
@@ -87,6 +101,10 @@ void HashTable::addServer(int index, int server_id, int DC_id){
     }
     ChainNode* newNode = new ChainNode(server_id,DC_id);
     current->setNext(newNode);
+}
+
+void HashTable::addServer(int index, int server_id, int DC_id){
+    addToArr(index,server_id,DC_id,this->arr);
     this->num_of_occupied_cells++;
 }
 
