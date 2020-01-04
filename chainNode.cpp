@@ -8,7 +8,7 @@
 ChainNode::ChainNode(int server_id, int DC_id):server(new Server(server_id,DC_id)),next(nullptr){}
 
 void ChainNode::setNext(ChainNode* next){
-    //assert(this->next== nullptr);
+    assert(this->next== nullptr);
     this->next = next;
 }
 

@@ -246,7 +246,7 @@ void Avl<K,D>::fix_BFs(std::shared_ptr<Node<K,D>> node){
     }
     if(current == nullptr) return;
     while (current){
-        int prev_height = current->getHeight();
+        //int prev_height = current->getHeight();
         current->calcHeight();
         current->calcRank();
         std::shared_ptr<Node<K,D>> prev = current;
@@ -331,7 +331,7 @@ void destroy(const std::shared_ptr<Node<K,D>>& node){
 template <class K, class D>
 Avl<K,D>::~Avl(){
     postorder<K,D,void (const std::shared_ptr<Node<K,D>>& node)>(this->head,destroy);
-    std::cout << "~Avl()"<< std::endl;
+    //std::cout << "~Avl()"<< std::endl;
 }
 
 template <class K, class D>

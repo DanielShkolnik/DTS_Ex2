@@ -122,11 +122,10 @@ UnionFind::UnionFind(int n): DCs_arr(new DataCenter*[n+1]), n(n){
 
 UnionFind::~UnionFind(){
     for(int i=1; i<=this->n; i++){
-        std::cout << "DC:" << i << std::endl;
         delete this->DCs_arr[i];
     }
     delete[] DCs_arr;
-    std::cout << "~UnionFind()" << std::endl;
+    //std::cout << "~UnionFind()" << std::endl;
 }
 
 void UnionFind::removeServer(int DC_ID, int server_ID, int traffic){

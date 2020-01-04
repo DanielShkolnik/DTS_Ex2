@@ -41,7 +41,7 @@ void HashTable::doubleSize(){
             current = next;
         }
     }
-    this->deleteArr();
+    delete[] this->arr;
     this->size=new_size;
     this->arr = newArr;
 }
@@ -140,7 +140,7 @@ void HashTable::removeServer(int index,int server_id){
 
 HashTable::~HashTable(){
     this->deleteArr();
-    std::cout << "~hashTable()"<< std::endl;
+   // std::cout << "~hashTable()"<< std::endl;
 }
 
 int HashTable::hash(int server_id, int size){

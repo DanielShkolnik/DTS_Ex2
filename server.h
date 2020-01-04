@@ -20,7 +20,7 @@ public:
     Server(const Server&) = delete;
     Server& operator=(const Server&) = delete;
     ~Server(){
-        std::cout << "~Server()" << std::endl;
+        //std::cout << "~Server()" << server_id << std::endl;
     }
 };
 #endif //DTS_EX2_SERVER_H
