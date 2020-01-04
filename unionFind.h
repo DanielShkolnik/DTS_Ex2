@@ -25,7 +25,8 @@ public:
     void addServer(int DC_ID, int server_ID, int traffic, const std::shared_ptr<Server>& server);
 };
 
-
+// function object to call for preorder do something.
+// adds nodes inorder to array
 class AddToArray{
 private:
     int i;
@@ -39,6 +40,8 @@ public:
     AddToArray(const AddToArray& a) = delete;
 };
 
+// function object to call for preorder do something.
+// coppies nodes inorder to the empty tree from the sorted array
 class AddToTree{
 private:
     int i;
