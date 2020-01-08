@@ -83,7 +83,7 @@ void HashTable::halfSize(){
             current = next;
         }
     }
-    delete this->arr;
+    delete[] this->arr;
     this->size = new_size;
     this->arr = newArr;
 }
