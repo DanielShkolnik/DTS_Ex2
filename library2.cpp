@@ -4,7 +4,7 @@
 
 void* Init(int n){
     if(n>0){
-        DataCenterManager* DS = new DataCenterManager(n);
+        DataCenterManager* DS = new DataCenterManager(n+1);
         return (void*)DS;
     }
     else return nullptr;
