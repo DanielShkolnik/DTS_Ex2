@@ -86,8 +86,8 @@ static bool isInit = false;
 
 int main(int argc, const char**argv) {
     std::string line;
-    std::ifstream myfile ("test\\Merge_test.txt");
-    freopen ("test_out\\Merge_test_out.txt","w",stdout);
+    std::ifstream myfile ("test\\Remove_test.txt");
+    freopen ("test_out\\Remove_test_out1.txt","w",stdout);
     int i = 1;
     if (myfile.is_open())
     {

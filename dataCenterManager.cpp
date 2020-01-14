@@ -114,14 +114,20 @@ int sumTraffic(const std::shared_ptr<Node<Key,Server>>& root, int k, int sum_tra
 
 StatusType DataCenterManager::SumHighestTrafficServers(int dataCenterID, int k, int* traffic){
     if(k < 0 || dataCenterID > this->num_of_DCs || dataCenterID < 0 || traffic == nullptr) return INVALID_INPUT;
+    if(k==0){
+        *traffic = 0;
+        return SUCCESS;
+    }
     try{
         if(dataCenterID !=0){
             std::shared_ptr<DataCenterGroup> DC_group = this->DCGroups.findDCGroup(dataCenterID);
             std::shared_ptr<Node<Key,Server>> root = DC_group->getTrafficRankTree()->getHead();
-            *traffic = sumTraffic(root,k,0);
+            if(root == nullptr) *traffic = 0;
+            else *traffic = sumTraffic(root,k,0);
         }
         else{
-           *traffic = sumTraffic(this->servers_traffic.getHead(),k,0);
+            if(this->servers_traffic.getHead() == nullptr) *traffic = 0;
+            else *traffic = sumTraffic(this->servers_traffic.getHead(),k,0);
         }
         return SUCCESS;
     }
