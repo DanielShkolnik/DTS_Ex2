@@ -94,8 +94,8 @@ void unionGroups(DataCenter* root_big, DataCenter* root_small){
 
 //union two Data Centers
 void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
-    assert(DC_ID1>0 && DC_ID1<n);
-    assert(DC_ID2>0 || DC_ID2<n);
+    assert(DC_ID1>0 && DC_ID1<=n);
+    assert(DC_ID2>0 && DC_ID2<=n);
     DataCenter* root1 = findDCRoot(DC_ID1);
     DataCenter* root2 = findDCRoot(DC_ID2);
     if(root1->getGroup()->getNumOfDCs()>=root2->getGroup()->getNumOfDCs()){
