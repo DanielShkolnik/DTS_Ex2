@@ -182,6 +182,7 @@ std::shared_ptr<Server> HashTable::getServer(int server_id){
         if(current->getData()->getID() == server_id){
             return current->getData();
         }
+        current = current->getNext(); //********
     }
     throw HashTable::ServerNotExsist();
 }
