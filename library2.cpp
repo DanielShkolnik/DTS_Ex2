@@ -3,8 +3,11 @@
 #include "dataCenterManager.h"
 
 void* Init(int n){
-    DataCenterManager* DS = new DataCenterManager(n);
-    return (void*)DS;
+    if(n>0){
+        DataCenterManager* DS = new DataCenterManager(n);
+        return (void*)DS;
+    }
+    else return nullptr;
 }
 
 StatusType MergeDataCenters(void *DS, int dataCenter1, int dataCenter2){

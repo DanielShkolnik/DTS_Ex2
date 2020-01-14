@@ -46,11 +46,10 @@ void setRanks(const std::shared_ptr<Node<Key,Server>>& node){
 //merge two rank avl trees
 void mergeTrees(std::shared_ptr<DataCenterGroup> group1, std::shared_ptr<DataCenterGroup> group2){
     assert(group1 != nullptr && group2 != nullptr);
-
     //copy first avl rank tree nodes to array
     std::shared_ptr<Server>* server_array1 = new std::shared_ptr<Server>[group1->getNumOfServers()];
     AddToArray pred1(server_array1);
-    inorder<Key,Server,AddToArray>(group1->getTrafficRankTree()->getHead(),pred1);
+    inorder<Key, Server, AddToArray>(group1->getTrafficRankTree()->getHead(), pred1);
 
     //copy first avl rank tree nodes to array
     std::shared_ptr<Server>* server_array2 = new std::shared_ptr<Server>[group2->getNumOfServers()];
@@ -66,7 +65,7 @@ void mergeTrees(std::shared_ptr<DataCenterGroup> group1, std::shared_ptr<DataCen
     Avl<Key,Server>* new_tree = new Avl<Key,Server>(arr_size);
     //copy cells from new array to the empty almost complete tree
     AddToTree pred3(server_array_combined);
-    inorder<Key,Server,AddToTree>(new_tree->getHead(),pred3);
+    inorder<Key, Server, AddToTree>(new_tree->getHead(), pred3);
     //set the ranks in the new tree
     postorder(new_tree->getHead(),setRanks);
 
@@ -87,7 +86,7 @@ void unionGroups(DataCenter* root_big, DataCenter* root_small){
     std::shared_ptr<DataCenterGroup> group_small = root_small->getGroup();
     root_small->setGroup(nullptr); // there is no pointer to DataCenterGroup so the group is deleted
     root_small->setNext(root_big);
-    mergeTrees(group_big, group_small);
+    if(group_big->getNumOfServers()>0 || group_small->getNumOfServers()>0) mergeTrees(group_big, group_small);
     group_big->setNumOfDCs(group_big->getNumOfDCs()+group_small->getNumOfDCs());
     group_big->setNumOfServers(group_big->getNumOfServers()+group_small->getNumOfServers());
 }
@@ -99,7 +98,9 @@ void UnionFind::unionDCs(int DC_ID1, int DC_ID2){
     assert(DC_ID2>0 || DC_ID2<n);
     DataCenter* root1 = findDCRoot(DC_ID1);
     DataCenter* root2 = findDCRoot(DC_ID2);
-    if(root1->getGroup()->getNumOfDCs()>=root2->getGroup()->getNumOfDCs()) unionGroups(root1,root2);
+    if(root1->getGroup()->getNumOfDCs()>=root2->getGroup()->getNumOfDCs()){
+        unionGroups(root1,root2);
+    }
     else unionGroups(root2,root1);
 }
 
